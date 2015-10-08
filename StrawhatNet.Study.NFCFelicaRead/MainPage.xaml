@@ -1,0 +1,32 @@
+﻿<Page
+    x:Class="StrawhatNet.Study.NFCFelicaRead.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StrawhatNet.Study.NFCFelicaRead"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid x:Name="RootGrid" Margin="12,20,12,12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="0,0,0,10">
+                <TextBlock Text="Felica Card Reader Sample"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Row="1">
+                <RadioButton x:Name="IsEDYRadioButton" Content="EDY" GroupName="Command" IsChecked="True" Click="CommandButton_Checked"/>
+                <RadioButton x:Name="IsSuicaRadioButton" Content="Suica/Pasmo" GroupName="Command" IsChecked="False" Click="CommandButton_Checked"/>
+            </StackPanel>
+            <Border x:Name="LogBorder" Grid.Row="2" BorderBrush="Black" BorderThickness="1">
+                <ScrollViewer x:Name="StatusBlockScroller" VerticalScrollMode="Auto"  VerticalScrollBarVisibility="Auto">
+                    <TextBlock x:Name="LogText" TextWrapping="Wrap" />
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>
