@@ -13,9 +13,9 @@ namespace StrawhatNet.Study.NFCFelicaRead
 {
     public sealed partial class MainPage : Page
     {
-        private SmartCardReader m_cardReader;
-        private bool isEDY_Checked;
-        private bool isSuica_Checked;
+        private SmartCardReader cardReader;
+        private bool isEDYChecked;
+        private bool isSuicaChecked;
 
         public MainPage()
         {
@@ -28,7 +28,6 @@ namespace StrawhatNet.Study.NFCFelicaRead
 
             this.UpdateTargetCardFlag();
 
-            // First try to find a reader that advertises as being NFC
             var deviceInfo = await SmartCardReaderUtils.GetFirstSmartCardReaderInfo(SmartCardReaderKind.Nfc);
             if (deviceInfo == null)
             {
@@ -51,21 +50,21 @@ namespace StrawhatNet.Study.NFCFelicaRead
                 return;
             }
 
-            if (m_cardReader == null)
+            if (cardReader == null)
             {
-                m_cardReader = await SmartCardReader.FromIdAsync(deviceInfo.Id);
-                m_cardReader.CardAdded += cardReader_CardAdded;
-                m_cardReader.CardRemoved += cardReader_CardRemoved;
+                cardReader = await SmartCardReader.FromIdAsync(deviceInfo.Id);
+                cardReader.CardAdded += cardReader_CardAdded;
+                cardReader.CardRemoved += cardReader_CardRemoved;
             }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            if (m_cardReader != null)
+            if (cardReader != null)
             {
-                m_cardReader.CardAdded -= cardReader_CardAdded;
-                m_cardReader.CardRemoved -= cardReader_CardRemoved;
-                m_cardReader = null;
+                cardReader.CardAdded -= cardReader_CardAdded;
+                cardReader.CardRemoved -= cardReader_CardRemoved;
+                cardReader = null;
             }
         }
 
@@ -95,7 +94,7 @@ namespace StrawhatNet.Study.NFCFelicaRead
                     {
                         await LogMessageAsync("FelicaCardがみつかりました");
 
-                        if (isEDY_Checked)
+                        if (isEDYChecked)
                         {
                             await ReadEdyAsync(connection);
                         }
@@ -201,8 +200,8 @@ namespace StrawhatNet.Study.NFCFelicaRead
 
         private void UpdateTargetCardFlag()
         {
-            isEDY_Checked = IsEDYRadioButton.IsChecked.HasValue && IsEDYRadioButton.IsChecked.Value;
-            isSuica_Checked = IsSuicaRadioButton.IsChecked.HasValue && IsSuicaRadioButton.IsChecked.Value;
+            isEDYChecked = IsEDYRadioButton.IsChecked.HasValue && IsEDYRadioButton.IsChecked.Value;
+            isSuicaChecked = IsSuicaRadioButton.IsChecked.HasValue && IsSuicaRadioButton.IsChecked.Value;
         }
 
         private async Task LogMessageAsync(string message, bool clearPrevious = false)
