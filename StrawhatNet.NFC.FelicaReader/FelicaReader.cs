@@ -40,7 +40,7 @@ namespace StrawhatNet.NFC.FelicaReader
         }
 
         public async Task<ReadWithoutEncryptionResponse> ReadWithoutEncryption(
-            byte[] uid,
+            byte[] idm,
             UInt16 serviceCode,
             byte blockNumber,
             byte[] blockList)
@@ -58,9 +58,9 @@ namespace StrawhatNet.NFC.FelicaReader
                 // block list
             };
 
-            for (int i = 0; i < uid.Length; i++)
+            for (int i = 0; i < idm.Length; i++)
             {
-                commandDataPrefix[i + 2] = uid[i];
+                commandDataPrefix[i + 2] = idm[i];
             }
 
             byte[] commandData = new byte[commandDataPrefix.Length + blockList.Length];
